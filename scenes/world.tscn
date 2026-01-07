@@ -1,0 +1,201 @@
+[gd_scene load_steps=15 format=3 uid="uid://coar0w52ewb50"]
+
+[ext_resource type="Script" uid="uid://dhpjlpbt57442" path="res://scenes/world.gd" id="1_k0juu"]
+[ext_resource type="PackedScene" uid="uid://be8qbmt0fe144" path="res://scenes/player.tscn" id="1_nnsk1"]
+[ext_resource type="PackedScene" uid="uid://dl22x7n032e8" path="res://scenes/enemy_1.tscn" id="3_4wyf3"]
+[ext_resource type="FontFile" uid="uid://cggkvbspykjrk" path="res://Tiny5-Regular.ttf" id="3_71j4m"]
+[ext_resource type="AudioStream" uid="uid://bua80omkkkj4j" path="res://music/ParaLighter.mp3" id="4_k0juu"]
+[ext_resource type="Script" uid="uid://dfjux31uso64d" path="res://scenes/help.gd" id="4_qfnet"]
+
+[sub_resource type="SystemFont" id="SystemFont_4wyf3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k0juu"]
+font = SubResource("SystemFont_4wyf3")
+font_size = 48
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(1, 0.7921569, 0.02745098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qfnet"]
+font_size = 32
+font_color = Color(1, 1, 0, 1)
+shadow_color = Color(1.0987902, 0.017333012, 1.8142675, 1)
+
+[sub_resource type="Curve2D" id="Curve2D_71j4m"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -359, -383, 0, 0, 0, 0, 1678, -372, 0, 0, 0, 0, 1681, 943, 0, 0, 0, 0, -369, 927, 0, 0, 0, 0, -357, -372)
+}
+point_count = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_4wyf3"]
+font = ExtResource("3_71j4m")
+font_size = 128
+font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(0.9364958, 0.022291468, 0.5896493, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwgxs"]
+bg_color = Color(0.31, 0, 0.2789999, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wyf3"]
+bg_color = Color(0.94384414, 0.6292086, 0.82468337, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_71j4m"]
+font = ExtResource("3_71j4m")
+font_size = 42
+font_color = Color(1, 0.7921569, 0.02745098, 1)
+outline_color = Color(0.97566444, 4.5724214e-06, 1.540184e-06, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="world" type="Node2D"]
+script = ExtResource("1_k0juu")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = -227.0
+offset_top = -219.0
+offset_right = 1591.0
+offset_bottom = 830.0
+color = Color(0, 0, 0, 1)
+
+[node name="Help" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 69.0
+offset_top = 156.0
+offset_right = 423.0
+offset_bottom = 361.0
+theme_override_fonts/font = ExtResource("3_71j4m")
+theme_override_font_sizes/font_size = 20
+text = "Controls: 
+Use WASD to move around
+Right Mouse Button to point torch
+Left Mouse Button to turn on the Light
+Objective:
+1. Defeat the Ghosts
+2. Reach Level 3 to END THE NIGHTMARE
+"
+script = ExtResource("4_qfnet")
+
+[node name="Player" parent="." instance=ExtResource("1_nnsk1")]
+position = Vector2(631.9999, 355.99997)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Score" type="CanvasLayer" parent="Player/Camera2D"]
+unique_name_in_owner = true
+
+[node name="Points" type="Label" parent="Player/Camera2D/Score"]
+unique_name_in_owner = true
+offset_left = 60.0
+offset_top = 36.0
+offset_right = 100.0
+offset_bottom = 59.0
+theme_override_font_sizes/font_size = 48
+text = "0"
+label_settings = SubResource("LabelSettings_k0juu")
+
+[node name="Level" type="Label" parent="Player/Camera2D/Score"]
+unique_name_in_owner = true
+offset_left = 63.0
+offset_top = 100.0
+offset_right = 124.0
+offset_bottom = 125.0
+text = "Level 0"
+label_settings = SubResource("LabelSettings_qfnet")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player/Camera2D"]
+position = Vector2(-629.7223, -360.01355)
+rotation = 0.006361994
+scale = Vector2(1.0000001, 1.0000001)
+stream = ExtResource("4_k0juu")
+autoplay = true
+parameters/looping = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_71j4m")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+unique_name_in_owner = true
+position = Vector2(1678.4263, -185.15704)
+rotation = 1.568515
+progress = 2223.87
+
+[node name="1st wave" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[node name="Game_Over" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Game_Over"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.76854527, 0.7423553, 1, 1)
+
+[node name="Label" type="Label" parent="Game_Over/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_4wyf3")
+uppercase = true
+
+[node name="Button" type="Button" parent="Game_Over/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.77300006
+anchor_right = 0.5
+anchor_bottom = 0.77300006
+offset_left = -127.0
+offset_top = -79.90405
+offset_right = 133.0
+offset_bottom = 3.0959473
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.7921569, 0.02745098, 1)
+theme_override_fonts/font = ExtResource("3_71j4m")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_rwgxs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4wyf3")
+text = "Restart"
+
+[node name="Total Score" type="Label" parent="Game_Over/ColorRect"]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 0
+offset_left = 450.0
+offset_top = 189.0
+offset_right = 816.0
+offset_bottom = 290.0
+text = "Total Score: 0"
+label_settings = SubResource("LabelSettings_71j4m")
+
+[node name="Boos" parent="." instance=ExtResource("3_4wyf3")]
+
+[node name="Lighting" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
+[connection signal="helath_depleted" from="Player" to="." method="_on_player_helath_depleted"]
+[connection signal="timeout" from="1st wave" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="Game_Over/ColorRect/Button" to="." method="_on_button_pressed"]
+[connection signal="enemy_dead" from="Boos" to="." method="_on_boos_enemy_dead"]

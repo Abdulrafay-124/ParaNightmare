@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://bioeaawun3vq7"]
+
+[ext_resource type="Texture2D" uid="uid://ow7tamdweshn" path="res://art/Gun/Torch_off.png" id="1_d4v33"]
+[ext_resource type="Script" uid="uid://bpwwyh8uuss2r" path="res://scenes/torch.gd" id="1_my26j"]
+[ext_resource type="Texture2D" uid="uid://cb156fdopbunq" path="res://art/Gun/Torch_On.png" id="3_o2tjn"]
+[ext_resource type="PackedScene" uid="uid://bhgyb7w3pfgsd" path="res://scenes/torch_light.tscn" id="4_r3k50"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3k50"]
+size = Vector2(16, 11.999999)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r3k50"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d4v33")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_o2tjn")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[node name="Torch" type="Area2D"]
+script = ExtResource("1_my26j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(71, -5.6522776e-08)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_r3k50")
+
+[node name="torch pivot" type="Marker2D" parent="."]
+rotation = 6.2610264
+
+[node name="Torch" type="AnimatedSprite2D" parent="torch pivot"]
+position = Vector2(62.984535, 1.3958981)
+rotation = 1.5853307
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_r3k50")
+animation = &"off"
+
+[node name="light" type="Marker2D" parent="torch pivot/Torch"]
+position = Vector2(0.05337119, -6.9997973)
+rotation = 0.00040898472
+
+[node name="Torch_light" parent="torch pivot/Torch/light" instance=ExtResource("4_r3k50")]
+position = Vector2(1.2344773, -32.491943)
+rotation = 0.00817016
+scale = Vector2(2, 2)
